@@ -1,0 +1,11 @@
+cffi==1.17.1
+cryptography==45.0.5
+dnspython==2.6.1
+lxml==6.0.0
+opcua==0.98.13
+pycparser==2.22
+pymongo==4.10.1
+python-dateutil==2.9.0.post0
+python-dotenv==1.0.1
+pytz==2025.2
+six==1.17.0
