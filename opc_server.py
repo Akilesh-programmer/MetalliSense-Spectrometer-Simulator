@@ -74,16 +74,6 @@ class SpectrometerOPCUAServer:
         print(f"[{datetime.now()}] ✅ Generated Reading for {grade}")
         return [ua.Variant(reading_str, ua.VariantType.String)]
 
-    def generate_reading(self):
-        grade = self.metal_grade_node.get_value()
-        count = self.incorrect_elements_node.get_value()
-        result = simulate_reading(grade, count)
-        reading_str = str(result)
-        self.latest_reading_node.set_value(reading_str)
-        temp = result.get("temperature", 0.0)
-        self.temperature_node.set_value(temp)
-        print(f"[{datetime.now()}] ✅ Generated Reading for {grade}")
-        return reading_str
 
     def run(self):
         self.server.start()
