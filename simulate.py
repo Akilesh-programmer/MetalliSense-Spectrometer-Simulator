@@ -40,5 +40,6 @@ def simulate_reading(grade="SG-Iron", incorrect_elements_count=3):
 
         reading[element] = round(value, 4)
 
+    reading["temperature"] = round(random.uniform(1350, 1550), 2)
     reading["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return reading

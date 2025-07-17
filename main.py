@@ -1,6 +1,4 @@
-from opc_server import SpectrometerOPCUAServer
+from ui import run_app
 
 if __name__ == "__main__":
-    print("[INFO] Starting Spectrometer OPC-UA Server...")
-    server = SpectrometerOPCUAServer()
-    server.run()
+    run_app()
