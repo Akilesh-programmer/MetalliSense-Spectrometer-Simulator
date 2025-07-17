@@ -2,11 +2,6 @@ from opcua import Server, ua
 from datetime import datetime
 from simulate import simulate_reading
 
-
-from opcua import ua
-from datetime import datetime
-from simulate import simulate_reading  # your simulation logic
-
 def generate_reading_callback(parent, metal_grade, incorrect_elements_count):
     try:
         # Extract values in case they are Variants
