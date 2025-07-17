@@ -10,11 +10,10 @@ class SpectrometerApp:
     def __init__(self, master):
         self.master = master
         self.master.title("MetalliSense Spectrometer Simulator")
-        self.master.geometry("500x400")
+        self.master.geometry("600x470")
         self.master.configure(bg="#ffffff")
         self.master.resizable(False, False)
 
-        # Window Icon
         icon_path = os.path.join(os.path.dirname(__file__), "spectrometer_icon.ico")
         if os.path.exists(icon_path):
             self.master.iconbitmap(icon_path)
@@ -58,11 +57,19 @@ class SpectrometerApp:
                   background=[('active', '#d32f2f'), ('disabled', '#b0bec5')])
 
         # Header
-        self.header = tk.Label(master, text="MetalliSense Spectrometer Simulator", bg="#ffffff", fg="#1a237e", font=("Segoe UI", 20, "bold"))
-        self.header.pack(pady=(22, 8))
+        self.header = tk.Label(master, text="MetalliSense Spectrometer Simulator", bg="#ffffff", fg="#1a237e", font=("Segoe UI", 22, "bold"))
+        self.header.pack(pady=(22, 4))
+
+        # OPC UA Highlight Label (side by side)
+        self.opcua_frame = tk.Frame(master, bg="#ffffff")
+        self.opcua_frame.pack(pady=(0, 10))
+        self.opcua_label1 = tk.Label(self.opcua_frame, text="Powered by ", bg="#ffffff", fg="#1976d2", font=("Segoe UI", 13, "bold"))
+        self.opcua_label1.pack(side="left")
+        self.opcua_label2 = tk.Label(self.opcua_frame, text="OPC UA", bg="#ffffff", fg="#ff9800", font=("Segoe UI", 13, "bold"))
+        self.opcua_label2.pack(side="left")
 
         # Sub-header / instructions
-        self.instructions = tk.Label(master, text="1. Turn on the spectrometer before connecting the client.\n2. Client sets parameters, then operator clicks 'Read Data'.", bg="#ffffff", fg="#37474f", font=("Segoe UI", 12), justify="center")
+        self.instructions = tk.Label(master, text="1. Turn on the spectrometer OPC/UA server before connecting the client.\n2. Client sets parameters, then operator clicks 'Read Data'.", bg="#ffffff", fg="#37474f", font=("Segoe UI", 12), justify="center")
         self.instructions.pack(pady=(0, 16))
 
         # Status
@@ -74,25 +81,25 @@ class SpectrometerApp:
         self.button_frame.pack(pady=10)
 
         # Turn on spectrometer button
-        self.turn_on_button = ttk.Button(self.button_frame, text="Turn on Spectrometer", style='Accent.TButton', command=self.start_server)
-        self.turn_on_button.grid(row=0, column=0, padx=8, pady=8)
+        self.turn_on_button = ttk.Button(self.button_frame, text="Turn on Spectrometer OPC/UA Server", style='Accent.TButton', command=self.start_server)
+        self.turn_on_button.pack(fill="x", padx=16, pady=(0, 14))
 
         # Turn off spectrometer button
         self.turn_off_button = ttk.Button(self.button_frame, text="Turn off Spectrometer", style='Off.TButton', command=self.stop_server, state="disabled")
-        self.turn_off_button.grid(row=0, column=1, padx=8, pady=8)
+        self.turn_off_button.pack(fill="x", padx=16, pady=(0, 14))
 
         # Read data button
         self.read_button = ttk.Button(self.button_frame, text="Read Data", style='Read.TButton', command=self.read_data, state="disabled")
-        self.read_button.grid(row=1, column=0, columnspan=2, padx=8, pady=8, sticky="ew")
+        self.read_button.pack(fill="x", padx=16, pady=(0, 8))
 
         # Footer (copyright)
-        self.footer = tk.Label(master, text="© 2024 MetalliSense Hackathon", bg="#ffffff", fg="#78909c", font=("Segoe UI", 11, "italic"))
-        self.footer.pack(side="bottom", pady=16)
+        self.footer = tk.Label(master, text="© 2024 MetalliSense Hackathon", bg="#ffffff", fg="#78909c", font=("Segoe UI", 12, "italic"))
+        self.footer.pack(side="bottom", pady=24)
 
     def start_server(self):
         self.server_thread = threading.Thread(target=self.server.run, daemon=True)
         self.server_thread.start()
-        time.sleep(1)
+        time.sleep(0.5)
         self.server_running = True
         self.status_label.config(text="Status: ONLINE", fg="#388e3c")
         self.read_button.config(state="normal")
@@ -101,8 +108,6 @@ class SpectrometerApp:
 
     def stop_server(self):
         if self.server_running:
-            # This will stop the server loop (by exiting the thread)
-            # Since the server's run() is a while True: pass, we need to add a stop flag or use server.stop()
             self.server.server.stop()
             self.server_running = False
             self.status_label.config(text="Status: OFFLINE", fg="#b71c1c")
