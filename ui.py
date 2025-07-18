@@ -92,9 +92,11 @@ class SpectrometerApp:
         self.read_button = ttk.Button(self.button_frame, text="Read Data", style='Read.TButton', command=self.read_data, state="disabled")
         self.read_button.pack(fill="x", padx=16, pady=(0, 8))
 
-        # Footer (copyright)
-        self.footer = tk.Label(master, text="© 2024 MetalliSense Hackathon", bg="#ffffff", fg="#78909c", font=("Segoe UI", 12, "italic"))
-        self.footer.pack(side="bottom", pady=24)
+        # Footer (copyright) in a dedicated frame
+        self.footer_frame = tk.Frame(master, bg="#ffffff")
+        self.footer_frame.pack(side="bottom", fill="x")
+        self.footer = tk.Label(self.footer_frame, text="© 2024 MetalliSense Hackathon", bg="#ffffff", fg="#78909c", font=("Segoe UI", 12, "italic"))
+        self.footer.pack(pady=32)
 
     def start_server(self):
         self.server_thread = threading.Thread(target=self.server.run, daemon=True)
