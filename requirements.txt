@@ -2,7 +2,7 @@ cffi==1.17.1
 cryptography==45.0.5
 dnspython==2.6.1
 lxml==6.0.0
-opcua==0.98.13
+paho-mqtt==1.6.1
 pycparser==2.22
 pymongo==4.10.1
 python-dateutil==2.9.0.post0
